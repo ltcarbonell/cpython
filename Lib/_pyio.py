@@ -592,15 +592,18 @@ class IOBase(metaclass=abc.ABCMeta):
                 break
         return lines
 
-    def writelines(self, lines):
+    def writelines(self, lines, line_separator=None):
         """Write a list of lines to the stream.
 
         Line separators are not added, so it is usual for each of the lines
-        provided to have a line separator at the end.
+        provided to have a line separator at the end.  However this can be
+        added via optional parameter.
         """
         self._checkClosed()
         for line in lines:
-            self.write(line)
+            if line_separator is None:
+                line_separator = ''
+            self.write(line + line_separator)
 
 io.IOBase.register(IOBase)
 
